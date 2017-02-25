@@ -11,23 +11,28 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.DateFormat;
+import java.util.Locale;
+import java.util.Properties;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.text.DateFormatter;
+import org.jdatepicker.impl.*;
 
 /**
  *
  * @author NOFFABEL
  */
-public class TextField extends JComponent implements Fields {
+public class DateField extends JComponent implements Fields {
     
     boolean isEmpty;
     boolean require;
     
     String str_name, str_label, str_error;
     JLabel lbl_error, lbl_text;
-    JTextField tfd_text;
+    JDatePickerImpl tfd_text;
+    JDatePanelImpl date_panel;
     GridBagLayout grid;
     
     /**
@@ -35,7 +40,7 @@ public class TextField extends JComponent implements Fields {
      * @param name
      * @param req 
      */
-    public TextField(String name, boolean req) {
+    public DateField(String name, boolean req) {
         
         isEmpty = true;
         require = req;
@@ -62,8 +67,19 @@ public class TextField extends JComponent implements Fields {
         c.insets = new Insets(10, 10, 0, 10);
         grid.addLayoutComponent(lbl_text, c);
         
-        
-        tfd_text = new JTextField();
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        date_panel = new JDatePanelImpl(new UtilDateModel(), p);
+        tfd_text = new JDatePickerImpl(date_panel, 
+            new DateFormatter(
+                DateFormat.getDateInstance(
+                    DateFormat.SHORT, 
+                        new Locale("fr","FR")
+                )
+            )
+        );
         c.gridy = 1;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridheight = 2;
@@ -81,7 +97,7 @@ public class TextField extends JComponent implements Fields {
         
         lbl_error.setVisible(false);
         
-        grid.layoutContainer((Container)this);
+        grid.layoutContainer((Container) this);
     }
     
     @Override
@@ -99,9 +115,9 @@ public class TextField extends JComponent implements Fields {
     @Override
     public void setError(boolean bln) {
         if(bln) {
-            tfd_text.setBorder(BorderFactory.createLineBorder(Color.RED));
+            date_panel.setBorder(BorderFactory.createLineBorder(Color.RED));
         }else {
-            tfd_text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            date_panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
         lbl_error.setVisible(bln);
     }
@@ -113,7 +129,7 @@ public class TextField extends JComponent implements Fields {
     
     public String getValue() {
         try {
-            return tfd_text.getText();
+            return tfd_text.getJFormattedTextField().getText();
         }catch(Exception e) {
             return "";
         }

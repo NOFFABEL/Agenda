@@ -20,7 +20,7 @@ import javax.swing.JTextField;
  *
  * @author NOFFABEL
  */
-public class TextField extends JComponent implements Fields {
+public class MailField extends JComponent implements Fields {
     
     boolean isEmpty;
     boolean require;
@@ -35,7 +35,7 @@ public class TextField extends JComponent implements Fields {
      * @param name
      * @param req 
      */
-    public TextField(String name, boolean req) {
+    public MailField(String name, boolean req) {
         
         isEmpty = true;
         require = req;
@@ -81,7 +81,7 @@ public class TextField extends JComponent implements Fields {
         
         lbl_error.setVisible(false);
         
-        grid.layoutContainer((Container)this);
+        grid.layoutContainer((Container) this);
     }
     
     @Override
@@ -112,10 +112,6 @@ public class TextField extends JComponent implements Fields {
     }
     
     public String getValue() {
-        try {
-            return tfd_text.getText();
-        }catch(Exception e) {
-            return "";
-        }
+        return tfd_text.getText();
     }
 }

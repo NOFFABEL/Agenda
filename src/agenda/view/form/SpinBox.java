@@ -14,28 +14,30 @@ import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
  * @author NOFFABEL
  */
-public class TextField extends JComponent implements Fields {
+public class SpinBox extends JComponent implements Fields {
     
     boolean isEmpty;
     boolean require;
+    boolean isValid;
     
     String str_name, str_label, str_error;
     JLabel lbl_error, lbl_text;
-    JTextField tfd_text;
+    JSpinner spn_text;
     GridBagLayout grid;
     
     /**
-     * 
+     *
      * @param name
-     * @param req 
+     * @param req
      */
-    public TextField(String name, boolean req) {
+    public SpinBox(String name, boolean req) {
         
         isEmpty = true;
         require = req;
@@ -63,13 +65,13 @@ public class TextField extends JComponent implements Fields {
         grid.addLayoutComponent(lbl_text, c);
         
         
-        tfd_text = new JTextField();
+        spn_text = new JSpinner(new SpinnerNumberModel(1,1,999,1));
         c.gridy = 1;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridheight = 2;
         c.gridwidth = 2;
         c.insets = new Insets(10, 2, 1, 10);
-        grid.addLayoutComponent(tfd_text, c);
+        grid.addLayoutComponent(spn_text, c);
         
         lbl_error = new JLabel(str_error);
         lbl_error.setFont(new Font("Time New Roman", 1, 10));
@@ -81,41 +83,42 @@ public class TextField extends JComponent implements Fields {
         
         lbl_error.setVisible(false);
         
-        grid.layoutContainer((Container)this);
+        grid.layoutContainer((Container) this);
     }
     
     @Override
     public boolean isValid() {
         check();
-        return !(require & isEmpty);
+        return !((require & isEmpty) || (require & !isEmpty & !isValid));
     }
     
     @Override
     public void buildError() {
-        str_error = str_name + " ne doit pas être vide. remplissez le avant de valider.";
-        setError(true);
+        if(isEmpty) {
+            str_error = str_name + " ne doit pas être vide. remplissez le avant de valider.";
+            setError(true);
+        } else if (!isValid) {
+            str_error = str_name + " doit être un entier > 0.";
+        }
     }
 
     @Override
     public void setError(boolean bln) {
         if(bln) {
-            tfd_text.setBorder(BorderFactory.createLineBorder(Color.RED));
+            spn_text.setBorder(BorderFactory.createLineBorder(Color.RED));
         }else {
-            tfd_text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            spn_text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
         lbl_error.setVisible(bln);
     }
     
     @Override
     public void check() {
-        isEmpty = getValue().isEmpty();
+        isValid = (spn_text.getValue() instanceof Integer);
+        isEmpty = (getSpinValue() == 0);
     }
     
-    public String getValue() {
-        try {
-            return tfd_text.getText();
-        }catch(Exception e) {
-            return "";
-        }
+    public int getSpinValue() {
+        return (int)spn_text.getValue();
     }
 }

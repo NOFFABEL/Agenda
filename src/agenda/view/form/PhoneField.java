@@ -13,21 +13,21 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 /**
  *
  * @author NOFFABEL
  */
-public class TextField extends JComponent implements Fields {
+public class PhoneField extends JComponent implements Fields {
     
     boolean isEmpty;
     boolean require;
     
     String str_name, str_label, str_error;
     JLabel lbl_error, lbl_text;
-    JTextField tfd_text;
+    JFormattedTextField tfd_text;
     GridBagLayout grid;
     
     /**
@@ -35,7 +35,7 @@ public class TextField extends JComponent implements Fields {
      * @param name
      * @param req 
      */
-    public TextField(String name, boolean req) {
+    public PhoneField(String name, boolean req) {
         
         isEmpty = true;
         require = req;
@@ -63,7 +63,7 @@ public class TextField extends JComponent implements Fields {
         grid.addLayoutComponent(lbl_text, c);
         
         
-        tfd_text = new JTextField();
+        tfd_text = new JFormattedTextField();
         c.gridy = 1;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridheight = 2;
@@ -81,7 +81,7 @@ public class TextField extends JComponent implements Fields {
         
         lbl_error.setVisible(false);
         
-        grid.layoutContainer((Container)this);
+        grid.layoutContainer((Container) this);
     }
     
     @Override
@@ -112,10 +112,6 @@ public class TextField extends JComponent implements Fields {
     }
     
     public String getValue() {
-        try {
-            return tfd_text.getText();
-        }catch(Exception e) {
-            return "";
-        }
+        return tfd_text.getText();
     }
 }

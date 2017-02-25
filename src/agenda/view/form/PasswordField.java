@@ -14,20 +14,20 @@ import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 /**
  *
  * @author NOFFABEL
  */
-public class TextField extends JComponent implements Fields {
+public class PasswordField extends JComponent implements Fields {
     
     boolean isEmpty;
     boolean require;
     
     String str_name, str_label, str_error;
     JLabel lbl_error, lbl_text;
-    JTextField tfd_text;
+    JPasswordField pwd_text;
     GridBagLayout grid;
     
     /**
@@ -35,7 +35,7 @@ public class TextField extends JComponent implements Fields {
      * @param name
      * @param req 
      */
-    public TextField(String name, boolean req) {
+    public PasswordField(String name, boolean req) {
         
         isEmpty = true;
         require = req;
@@ -63,13 +63,13 @@ public class TextField extends JComponent implements Fields {
         grid.addLayoutComponent(lbl_text, c);
         
         
-        tfd_text = new JTextField();
+        pwd_text = new JPasswordField();
         c.gridy = 1;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridheight = 2;
         c.gridwidth = 2;
         c.insets = new Insets(10, 2, 1, 10);
-        grid.addLayoutComponent(tfd_text, c);
+        grid.addLayoutComponent(pwd_text, c);
         
         lbl_error = new JLabel(str_error);
         lbl_error.setFont(new Font("Time New Roman", 1, 10));
@@ -81,7 +81,7 @@ public class TextField extends JComponent implements Fields {
         
         lbl_error.setVisible(false);
         
-        grid.layoutContainer((Container)this);
+        grid.layoutContainer((Container) this);
     }
     
     @Override
@@ -99,9 +99,9 @@ public class TextField extends JComponent implements Fields {
     @Override
     public void setError(boolean bln) {
         if(bln) {
-            tfd_text.setBorder(BorderFactory.createLineBorder(Color.RED));
+            pwd_text.setBorder(BorderFactory.createLineBorder(Color.RED));
         }else {
-            tfd_text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            pwd_text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
         lbl_error.setVisible(bln);
     }
@@ -112,8 +112,8 @@ public class TextField extends JComponent implements Fields {
     }
     
     public String getValue() {
-        try {
-            return tfd_text.getText();
+        try{
+            return new String(pwd_text.getPassword());
         }catch(Exception e) {
             return "";
         }
