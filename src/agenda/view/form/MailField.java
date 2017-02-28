@@ -6,7 +6,6 @@
 package agenda.view.form;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -37,39 +36,44 @@ public class MailField extends JComponent implements Fields {
      */
     public MailField(String name, boolean req) {
         
+        super();
+        grid = new GridBagLayout();
+        super.setLayout(grid);
+        
         isEmpty = true;
         require = req;
         
         str_error = "";
         str_name = name;
         
-        if(require)
+        if(require) {
             str_label = "* " + name;
+        }
         
         str_label += " : ";
         
         GridBagConstraints c = new GridBagConstraints();
-        grid = new GridBagLayout();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
-        c.weightx = 0.5;
         
         lbl_text = new JLabel(str_label);
+        c.weightx = 1;
         c.gridy = 0;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridwidth = 1;
         c.gridheight = 2;
-        c.insets = new Insets(10, 10, 0, 10);
-        grid.addLayoutComponent(lbl_text, c);
+        c.insets = new Insets(2, 10, 0, 2);
+        super.add(lbl_text, c);
         
         
         tfd_text = new JTextField();
+        c.weightx = 4;
         c.gridy = 1;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridheight = 2;
         c.gridwidth = 2;
-        c.insets = new Insets(10, 2, 1, 10);
-        grid.addLayoutComponent(tfd_text, c);
+        c.insets = new Insets(0, 1, 5, 10);
+        super.add(tfd_text, c);
         
         lbl_error = new JLabel(str_error);
         lbl_error.setFont(new Font("Time New Roman", 1, 10));
@@ -77,15 +81,17 @@ public class MailField extends JComponent implements Fields {
         c.gridx = 1;
         c.gridheight = 1;
         c.insets = new Insets(0, 5, 10, 10);
-        grid.addLayoutComponent(lbl_error, c);
+        super.add(lbl_error, c);
         
         lbl_error.setVisible(false);
-        
-        grid.layoutContainer((Container) this);
+    }
+    
+    public MailField(String name) {
+        this(name, false);
     }
     
     @Override
-    public boolean isValid() {
+    public boolean isValidField() {
         check();
         return !(require & isEmpty);
     }
@@ -112,6 +118,17 @@ public class MailField extends JComponent implements Fields {
     }
     
     public String getValue() {
-        return tfd_text.getText();
+        try{
+            return tfd_text.getText();
+        }catch(Exception e){
+            System.err.println("Une exception de la classe " + e.getClass() + " a été retourné la cause est - " + e.getCause() + " - "
+                    + "\nVoici le message de l'exception - " + e.getMessage() + " -.");
+            return "";
+        }
+    }
+    
+    @Override
+    public boolean isRequired() {
+        return this.require;
     }
 }

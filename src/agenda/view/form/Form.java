@@ -10,6 +10,11 @@ package agenda.view.form;
  * @author NOFFABEL
  */
 public interface Form {
-    boolean isValid();
+
+    /**
+     * 
+     * @return 
+     */
+    boolean isValidForm();
     void buildErrors();
 }

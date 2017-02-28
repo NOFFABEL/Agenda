@@ -10,8 +10,28 @@ package agenda.view.form;
  * @author NOFFABEL
  */
 public interface Fields {
-    void check();
-    boolean isValid();
-    void setError(boolean bln);
-    void buildError();
+
+    /**
+     * 
+     */
+    public void check();
+    
+    /**
+     * 
+     * @return 
+     */
+    public boolean isValidField();
+    
+    /**
+     * 
+     * @param bln 
+     */
+    public void setError(boolean bln);
+    
+    /**
+     * Method calls when an error is remind on the field.
+     */
+    public void buildError();
+    
+    public boolean isRequired();
 }
