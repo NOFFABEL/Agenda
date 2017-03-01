@@ -6,7 +6,6 @@
 package agenda.view.form;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,6 +30,7 @@ public class PhoneField extends JComponent implements Fields {
     GridBagLayout grid;
     
     /**
+     * TODO :  
      * 
      * @param name
      * @param req 

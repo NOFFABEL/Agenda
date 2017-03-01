@@ -10,7 +10,7 @@ package agenda.view.form;
  * @author NOFFABEL
  */
 public interface Fields {
-
+   
     /**
      * 
      */

@@ -33,6 +33,7 @@ public class SpinBox extends JComponent implements Fields {
     GridBagLayout grid;
     
     /**
+     * TODO : 
      *
      * @param name
      * @param req

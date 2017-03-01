@@ -6,7 +6,9 @@
 package agenda.view.form;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  *
@@ -35,14 +38,11 @@ public class TextField extends JComponent implements Fields {
      * @param req 
      */
     public TextField(String name, boolean req) {
-        super();
-        grid = new GridBagLayout();
-        super.setLayout(grid);
-        
+                
         isEmpty = true;
         require = req;
         
-        str_error = "";
+        str_error = "bnnb";
         str_name = str_label = name;
         
         if(require) {
@@ -51,37 +51,40 @@ public class TextField extends JComponent implements Fields {
         
         str_label += " : ";
         
+        initComponent();
+    }
+    
+    private void initComponent() {
+        grid = new GridBagLayout();
+        setLayout(grid);
+        
         GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.CENTER;
+        c.ipady = c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 4;
+        c.weighty = 4;
         
         lbl_text = new JLabel(str_label);
-        c.weightx = 1;
-        c.weighty = 2;
         c.gridy = 0;
         c.gridx = GridBagConstraints.RELATIVE;
         c.gridwidth = 1;
-        c.gridheight = 2;
+        c.gridheight = 3;
         c.insets = new Insets(2, 10, 0, 2);
-        super.add(lbl_text, c);
+        add(lbl_text, c);
         
         tfd_text = new JTextField();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 4;
-        c.gridy = 1;
-        c.gridwidth = 2;
-        c.insets = new Insets(2, 0, 1, 10);
-        super.add(tfd_text, c);
+        c.gridwidth = 3;
+        c.insets = new Insets(2, -50, 1, 10);
+        add(tfd_text, c);
         
         lbl_error = new JLabel(str_error);
         lbl_error.setFont(new Font("Time New Roman", 1, 10));
         lbl_error.setForeground(Color.RED);
+        c.gridy = 3;
         c.gridx = 1;
-        c.weighty = 1;
         c.gridheight = 1;
         c.insets = new Insets(0, 1, 5, 10);
-        super.add(lbl_error, c);
-        
-        lbl_error.setVisible(false);
+        add(lbl_error, c);
     }
     
     public TextField(String name) {

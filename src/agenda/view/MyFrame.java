@@ -16,6 +16,7 @@ public class MyFrame extends javax.swing.JFrame {
      */
     public MyFrame() {
         initComponents();
+        //Just
     }
 
     /**
